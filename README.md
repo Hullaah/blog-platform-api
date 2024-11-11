@@ -1,1 +1,1 @@
-# blog-platform-api
+# bloggy
