@@ -13,9 +13,9 @@ services:
 
   server:
     build:
-      stage: dev
+      target: dev
     environment:
-      NODE_ENV: dev
+      NODE_ENV: development
     develop:
       watch:
         - path: server
@@ -26,9 +26,7 @@ services:
 
   web-client:
     build:
-      stage: dev
-    environment:
-      NODE_ENV: dev
+      target: dev
     develop:
       watch:
         - path: client/web
@@ -38,14 +36,15 @@ services:
           action: rebuild
 
   pgadmin4:
-    image: dpage/pgadmin4:8.4
+    image: dpage/pgadmin4:8.13
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     labels:
-      - traefik.http.routers.pgadmin4.rule: PathPrefix(`/pgadmin4`)
+      traefik.http.routers.pgadmin4.rule: Host(`pgadmin4.localhost`)
 
   rabbitmq:
+    image: rabbitmq:4.0-management
     labels:
-      - traefik.http.routers.rabbitmq.rule: PathPrefix(`/rabbitmq`)
-      - traefik.http.services.rabbitmq.loadbalancer.server.port: 15672
+      traefik.http.routers.rabbitmq.rule: Host(`rabbitmq.localhost`)
+      traefik.http.services.rabbitmq.loadbalancer.server.port: 15672

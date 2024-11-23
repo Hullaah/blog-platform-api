@@ -23,8 +23,10 @@ services:
     build:
       context: server
     labels:
-      - traefik.http.routers.server.rule: PathPrefix(`/api`)
-      - traefik.http.services.server.loadbalancer.server.port: 8080
+      traefik.http.routers.server.rule: PathPrefix(`/api`)
+      traefik.http.services.server.loadbalancer.server.port: 8080
+      traefik.http.middlewares.strip-api.stripprefix.prefixes: /api
+      traefik.http.routers.server.middlewares: strip-api@docker
 
   web-client:
     depends_on:
@@ -32,8 +34,8 @@ services:
     build:
       context: client/web
     labels:
-      - traefik.http.routers.web-client.rule: PathPrefix(`/`)
-      - traefik.http.services.web-client.loadbalancer.server.port: 3000
+      traefik.http.routers.web-client.rule: PathPrefix(`/`)
+      traefik.http.services.web-client.loadbalancer.server.port: 3000
 
   db:
     image: postgres:17.1

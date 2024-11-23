@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 import dotenv from 'dotenv';
 import sum from '@/sum';
@@ -8,6 +8,15 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+app.get('/api', (req: Request, res: Response, next: NextFunction) => {
+  const startTime = Date.now();
+  res.on('finish', () => {
+    const endTime = Date.now();
+    console.log(` ${req.method} ${req.url} ${res.statusCode} in ${endTime - startTime}ms`);
+  });
+  next();
+})
 
 app.get('/', (req: Request, res: Response) => {
   res.send("Express + Typescript Server " + `${sum(100, 200)}`);
