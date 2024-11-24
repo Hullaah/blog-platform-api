@@ -10,6 +10,8 @@
 services:
   reverse-proxy:
     command: --providers.docker --api.insecure
+    ports:
+      - "8080:8080"
 
   server:
     build:

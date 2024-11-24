@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/api', (req: Request, res: Response, next: NextFunction) => {
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
   const startTime = Date.now();
   res.on('finish', () => {
     const endTime = Date.now();
