@@ -13,7 +13,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   const startTime = Date.now();
   res.on('finish', () => {
     const endTime = Date.now();
-    console.log(` ${req.method} ${req.url} ${res.statusCode} in ${endTime - startTime}ms`);
+    console.log(` ${req.method} ${req.url} ${res.statusCode} in ${endTime - startTime}ms testsing`);
   });
   next();
 })

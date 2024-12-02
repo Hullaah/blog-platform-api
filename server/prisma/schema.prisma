@@ -17,7 +17,7 @@ model User {
   id              String    @id @default(uuid()) @db.Uuid
   username        String    @unique @db.VarChar(50)
   passwordHash    String    @db.VarChar(250)
-  email           String    @db.VarChar(250)
+  email           String    @unique @db.VarChar(250)
   profile         Profile?
   writtenArticles Article[] @relation("writtenArticles")
   likedArticles   Article[] @relation("likes")
@@ -27,11 +27,13 @@ model User {
 }
 
 model Profile {
-  userId            String @unique @db.Uuid
-  user              User   @relation(fields: [userId], references: [id])
-  fullName          String @db.VarChar(100)
-  bio               String @db.VarChar(500)
-  profilePictureURL String @db.Char(100)
+  userId            String   @unique @db.Uuid
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName          String   @db.VarChar(100)
+  bio               String   @db.VarChar(500)
+  profilePictureURL String   @db.Char(100)
+  createdAt         DateTime @default(now()) @db.Timestamptz()
+  updatedAt         DateTime @updatedAt @db.Timestamptz()
 }
 
 model Article {
@@ -44,6 +46,9 @@ model Article {
   comments   Comment[]
   likes      User[]     @relation("likes")
   views      Int
+  published  Boolean    @default(false)
+  createdAt  DateTime   @default(now()) @db.Timestamptz()
+  updatedAt  DateTime   @updatedAt @db.Timestamptz()
 }
 
 model Category {
@@ -61,4 +66,6 @@ model Comment {
   parentComment   Comment?  @relation("ParentComment", fields: [parentCommentId], references: [id])
   comments        Comment[] @relation("ParentComment")
   parentCommentId String?   @db.Uuid
+  createdAt       DateTime  @default(now()) @db.Timestamptz()
+  updatedAt       DateTime  @updatedAt @db.Timestamptz()
 }

@@ -68,4 +68,4 @@ COPY --from=build /usr/src/app/dist .
 EXPOSE 5000
 
 # Run the application.
-CMD pnpm start
+CMD ["pnpm", "start"]
