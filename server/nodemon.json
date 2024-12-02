@@ -1,7 +1,7 @@
 {
   "restartable": "rs",
   "verbose": true,
-  "exec": "ts-node -r tsconfig-paths/register src/index.ts",
+  "exec": "tsx -r tsconfig-paths/register src/index.ts",
   "watch": ["src", "prisma"],
   "ext": "ts",
   "ignore": ["node_modules", "tests"]
